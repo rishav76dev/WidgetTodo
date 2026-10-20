@@ -1,0 +1,37 @@
+name: iOS
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select newest Xcode
+        run: |
+          XCODE="$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -n 1)"
+          echo "Using $XCODE"
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate project
+        run: xcodegen generate
+
+      - name: Test TodoCore
+        run: cd Packages/TodoCore && swift test
+
+      - name: Build app and widget
+        run: |
+          xcodebuild \
+            -project Todo1.xcodeproj \
+            -scheme Todo1 \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build

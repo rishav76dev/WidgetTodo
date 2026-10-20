@@ -1,0 +1,120 @@
+# XcodeGen spec. Generate the project with `xcodegen generate` (Todo1.xcodeproj is not committed).
+name: Todo1
+
+options:
+  bundleIdPrefix: ai.shavastudios
+  deploymentTarget:
+    iOS: "17.0"
+
+configFiles:
+  Debug: Config/Base.xcconfig
+  Release: Config/Base.xcconfig
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1" # repeated per target: XcodeGen's iOS preset sets "1,2" there
+    MARKETING_VERSION: 1.0.0
+    CURRENT_PROJECT_VERSION: 1
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    CODE_SIGN_STYLE: Automatic
+
+packages:
+  TodoCore:
+    path: Packages/TodoCore
+  RevenueCat:
+    url: https://github.com/RevenueCat/purchases-ios-spm
+    from: 5.96.0
+
+targets:
+  Todo1:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      # Info.plist and the entitlements are referenced by build settings, and the StoreKit
+      # configuration is only used by the scheme, so none of them is copied into the bundle.
+      - path: App
+        excludes:
+          - Resources/Info.plist
+          - Resources/Todo1.entitlements
+          - Resources/Todo1.storekit
+      - path: App/Resources/Todo1.storekit
+        buildPhase: none
+      - path: Shared/Intents
+      - path: Shared/Fonts
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.shavastudios.todo1
+        PRODUCT_NAME: Todo1
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_FILE: App/Resources/Info.plist
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_ENTITLEMENTS: App/Resources/Todo1.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+    dependencies:
+      - target: Todo1Widget
+        embed: true
+      - package: TodoCore
+        product: TodoKit
+      - package: TodoCore
+        product: TodoData
+      - package: TodoCore
+        product: TodoUI
+      - package: RevenueCat
+        product: RevenueCat
+      - package: RevenueCat
+        product: RevenueCatUI
+
+  Todo1Widget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Widget
+        excludes:
+          - Info.plist
+          - Todo1Widget.entitlements
+      - path: Shared/Intents
+      - path: Shared/Fonts
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.shavastudios.todo1.widget
+        PRODUCT_NAME: Todo1Widget
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_FILE: Widget/Info.plist
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Todo1
+        CODE_SIGN_ENTITLEMENTS: Widget/Todo1Widget.entitlements
+        SKIP_INSTALL: YES
+        ENABLE_PREVIEWS: YES
+    dependencies:
+      - package: TodoCore
+        product: TodoKit
+      - package: TodoCore
+        product: TodoData
+      - package: TodoCore
+        product: TodoUI
+
+schemes:
+  Todo1:
+    build:
+      targets:
+        Todo1: all
+        Todo1Widget: all
+    run:
+      config: Debug
+      # Local StoreKit testing. If Xcode cannot load this file, recreate it in Xcode
+      # (File > New > StoreKit Configuration File): group "Premium" with premium_yearly
+      # (1 year, 4.99, 1-week free trial) and non-consumable premium_lifetime (14.99).
+      storeKitConfiguration: App/Resources/Todo1.storekit
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
