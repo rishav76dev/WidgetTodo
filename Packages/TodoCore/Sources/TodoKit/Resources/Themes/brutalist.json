@@ -1,0 +1,35 @@
+{
+  "id": "brutalist",
+  "name": "Brutalist",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#FFD400"
+    ]
+  },
+  "textPrimary": "#000000",
+  "textSecondary": "#2B2B2B",
+  "accent": "#000000",
+  "overdue": "#D50000",
+  "font": {
+    "family": "system",
+    "weight": "black",
+    "scale": 1.15,
+    "case": "upper"
+  },
+  "header": {
+    "style": "stamp",
+    "prefix": ""
+  },
+  "row": {
+    "style": "card",
+    "spacing": 8
+  },
+  "checkbox": "square",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 0,
+  "padding": 12
+}

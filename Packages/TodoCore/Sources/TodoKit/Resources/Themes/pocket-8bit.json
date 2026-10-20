@@ -1,0 +1,36 @@
+{
+  "id": "pocket-8bit",
+  "name": "Pocket 8-bit",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#9BBC0F"
+    ]
+  },
+  "textPrimary": "#0F380F",
+  "textSecondary": "#306230",
+  "accent": "#0F380F",
+  "overdue": "#0F380F",
+  "font": {
+    "family": "custom",
+    "customName": "PressStart2P-Regular",
+    "weight": "regular",
+    "scale": 0.75,
+    "case": "upper"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 8
+  },
+  "checkbox": "square",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 0,
+  "padding": 14
+}

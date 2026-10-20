@@ -1,0 +1,36 @@
+{
+  "id": "receipt",
+  "name": "Receipt",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#FBFBF8"
+    ]
+  },
+  "textPrimary": "#222222",
+  "textSecondary": "#777777",
+  "accent": "#222222",
+  "overdue": "#C62828",
+  "font": {
+    "family": "custom",
+    "customName": "IBMPlexMono-Regular",
+    "weight": "regular",
+    "scale": 0.9,
+    "case": "upper"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "dashed",
+    "spacing": 6
+  },
+  "checkbox": "square",
+  "footer": "receipt",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 4,
+  "padding": 14
+}

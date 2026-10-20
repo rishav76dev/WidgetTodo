@@ -1,0 +1,35 @@
+{
+  "id": "midnight",
+  "name": "Midnight",
+  "colorScheme": "dark",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#000000"
+    ]
+  },
+  "textPrimary": "#FFFFFF",
+  "textSecondary": "#8E8E93",
+  "accent": "#FFFFFF",
+  "overdue": "#FF453A",
+  "font": {
+    "family": "system",
+    "weight": "regular",
+    "scale": 1.0,
+    "case": "none"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 8
+  },
+  "checkbox": "dot",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 16,
+  "padding": 14
+}

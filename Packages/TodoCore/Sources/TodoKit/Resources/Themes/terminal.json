@@ -1,0 +1,36 @@
+{
+  "id": "terminal",
+  "name": "Terminal",
+  "colorScheme": "dark",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#000000"
+    ]
+  },
+  "textPrimary": "#33FF66",
+  "textSecondary": "#1F9940",
+  "accent": "#33FF66",
+  "overdue": "#FF5555",
+  "font": {
+    "family": "custom",
+    "customName": "IBMPlexMono-Regular",
+    "weight": "regular",
+    "scale": 1.0,
+    "case": "lower"
+  },
+  "header": {
+    "style": "prompt",
+    "prefix": "> "
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 6
+  },
+  "checkbox": "bracket",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 0,
+  "padding": 14
+}

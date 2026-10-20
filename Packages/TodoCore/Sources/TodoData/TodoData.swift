@@ -1,2 +1,0 @@
-#if canImport(SwiftData)
-#endif
