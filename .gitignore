@@ -3,3 +3,7 @@
 xcuserdata/
 DerivedData/
 .build/
+.build-linux*
+*.xcodeproj
+Config/Local.xcconfig
+.swiftpm/

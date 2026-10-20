@@ -1,0 +1,2 @@
+#if canImport(SwiftUI)
+#endif

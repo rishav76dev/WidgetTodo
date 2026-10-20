@@ -584,7 +584,7 @@ Tests use `Calendar(identifier: .gregorian)` with `timeZone = TimeZone(identifie
   - `name: Todo1`, `options.bundleIdPrefix: ai.shavastudios`, `deploymentTarget.iOS: "17.0"`.
   - `configFiles` uses `Config/Base.xcconfig`.
   - Settings: `SWIFT_VERSION: 5.0`, `TARGETED_DEVICE_FAMILY: 1`, `MARKETING_VERSION: 1.0.0`, `CURRENT_PROJECT_VERSION: 1`.
-  - `packages`: `TodoCore` (`path: Packages/TodoCore`) and `RevenueCat` (`url: https://github.com/RevenueCat/purchases-ios-spm`, `from:` the latest 5.x tag found with `git ls-remote --tags`).
+  - `packages`: `TodoCore` (`path: Packages/TodoCore`) and `RevenueCat` (`url: https://github.com/RevenueCat/purchases-ios-spm`, `from: 5.96.0`).
   - Target `Todo1` (application):
     - Sources: `App`, `Shared/Intents`, and `Shared/Fonts` as resources.
     - Dependencies: TodoKit, TodoData, TodoUI, RevenueCat, RevenueCatUI, and `Todo1Widget` (embed).
