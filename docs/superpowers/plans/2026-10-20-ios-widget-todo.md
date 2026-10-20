@@ -299,7 +299,7 @@ Tests use `Calendar(identifier: .gregorian)` with `timeZone = TimeZone(identifie
     - `mono-mint`: `mono`
     - `neon`: `rounded`
     - `brutalist`: `system` with `black` weight and `upper` case
-    - `swiss`: `system` with `bold` weight and `custom`-free
+    - `swiss`: `system` with `bold` weight
   - **Per-theme settings:**
     - `receipt` uses footer `receipt` and row `dashed`.
     - `blueprint` uses background `grid`.
@@ -315,7 +315,7 @@ Tests use `Calendar(identifier: .gregorian)` with `timeZone = TimeZone(identifie
   - `bundledCatalogHas12UniqueThemesPaperFirst`: count 12, unique ids, first `paper`, and every theme's `id` equals its filename.
   - `unknownIdReturnsPaper`.
   - `orderedByRemoteOrder`: `["neon","bogus","paper"]` gives first two ids `neon, paper`, total count 12.
-  - `emptyBundleStillHasFallback`: `ThemeCatalog.load(bundle: Bundle(for:...))` or `ThemeCatalog(themes: [])` followed by `theme(id: "x").id == "paper"`.
+  - `emptyCatalogStillHasFallback`: `ThemeCatalog(themes: []).theme(id: "x").id == "paper"`.
 - [ ] **Step 2:** Run with `--filter "HexColorTests|ThemeDecodingTests|ThemeCatalogTests"`. Expected: FAIL.
 - [ ] **Step 3:** Implement the three source files and write the 13 JSON files.
 - [ ] **Step 4:** Rerun. Expected: PASS.
@@ -554,7 +554,7 @@ Tests use `Calendar(identifier: .gregorian)` with `timeZone = TimeZone(identifie
     - Provides `.modelContainer`, the `AppModel` and the `PurchaseManager` (`configure()` in `init`).
     - Calls `FontRegistration.registerBundledFonts()`.
     - `.onOpenURL(perform: model.handle)`.
-    - On `scenePhase == .active`: `purgeCompleted`, `ensureDefaultList` (after a 5-second delay on the first launch only, per spec section 5), `NotificationScheduler.shared.reschedule(...)`, `purchases.refresh()` and `IntentSupport.reloadWidgets()`.
+    - On `scenePhase == .active`: `purgeCompleted`, `ensureDefaultList` (after a 5-second delay on the first launch only, per spec section 5), `NotificationScheduler.shared.reschedule(tasks:enabled:)`, `purchases.refresh(model:)` and `IntentSupport.reloadWidgets()`.
     - Applies `.preferredColorScheme` from `appTheme.colorScheme` and `.tint(appTheme.accent.color)`.
   - `HomeView`:
     - A filter picker (All / Today / each list).

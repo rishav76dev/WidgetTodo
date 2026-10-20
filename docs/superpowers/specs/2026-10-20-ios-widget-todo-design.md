@@ -134,7 +134,7 @@ CloudKit rules: every attribute is optional or has a default, every relationship
 - **Timeline:** a single entry now, with refresh `.after(nextRelevantDate)`. That is the earliest of the next midnight and the next task due time (when overdue styling changes), capped at 1 hour.
 - **Locked theme fallback:** if a widget's theme is locked (no premium, or a trial or subscription has expired), the widget renders the default free theme with a small "Theme locked: tap to unlock" footer linking to `todo1://themes`. The user's choice is kept and comes back on resubscribe.
 - **Rendering modes:** every theme must look correct in `fullColor`, `accented` (tinted home screen) and `vibrant` modes. Theme backgrounds use `containerBackground(for: .widget)` so iOS can remove them in tinted or clear modes, and checkboxes and text use `widgetAccentable()` where appropriate.
-- **Siri, Shortcuts and Action button:** `AddTaskIntent(title: String, list: ListEntity?)` adds a task without opening the app. It is exposed through `AppShortcutsProvider` with the phrases "Add a task in ${applicationName}" and "Add ${title} to ${applicationName}". When `title` is missing, the system prompts for it.
+- **Siri, Shortcuts and Action button:** `AddTaskIntent(title: String, list: ListEntity?)` adds a task without opening the app. It is exposed through `AppShortcutsProvider` with the phrases "Add a task in ${applicationName}", "Add a task to ${applicationName}" and "New ${applicationName} task". App Shortcut phrases cannot contain free-text String parameters, so Siri then prompts "What do you need to do?".
 
 ## 8. Theme engine and catalogue
 
@@ -154,7 +154,7 @@ CloudKit rules: every attribute is optional or has a default, every relationship
   "padding": 14
 }
 ```
-- Enumerated styles: background `solid|gradient|image`. Header `plain|bold|prompt|stamp`. Row `plain|divider|card|dashed`. Checkbox `circle|square|bracket|strike|dot`. Case `none|upper|lower`.
+- Enumerated styles: background `solid|gradient|grid` (grid draws Blueprint's pattern without image assets). Header `plain|bold|prompt|stamp`. Row `plain|divider|card|dashed`. Checkbox `circle|square|bracket|strike|dot`. Case `none|upper|lower`.
 - Unknown values fall back to the defaults, and a malformed theme file falls back to "Paper". Unit tests cover this.
 - **Free vs locked:** themes are ordered by `themeOrder` (bundled default, replaceable remotely). The first `freeThemeCount` themes are free.
 - **Fonts:** system fonts (SF Pro, SF Mono, New York) plus fonts under the **SIL Open Font License** only, bundled in the shared package so the widget can use them. Every bundled font's licence file is included.
