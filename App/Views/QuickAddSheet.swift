@@ -64,7 +64,7 @@ struct QuickAddSheet: View {
         .presentationDetents([.height(190), .medium])
         .presentationDragIndicator(.visible)
         .sensoryFeedback(.success, trigger: addedCount)
-        .onAppear { isTitleFocused = true }
+        .onAppear(perform: focusTitle)
         .onChange(of: showsDatePicker) { _, shown in if !shown { isTitleFocused = true } }
         .onChange(of: showsTimePicker) { _, shown in if !shown { isTitleFocused = true } }
     }
@@ -214,7 +214,7 @@ struct QuickAddSheet: View {
 
     private func add() {
         guard let normalized = TaskTitle.normalized(title) else {
-            isTitleFocused = true
+            focusTitle()
             return
         }
         let due = self.due
@@ -228,14 +228,20 @@ struct QuickAddSheet: View {
                 listID: listID
             )
         } catch {
-            isTitleFocused = true
+            focusTitle()
             return
         }
         title = ""
         lastAdded = normalized
         addedCount += 1
-        isTitleFocused = true
+        focusTitle()
         model.tasksDidChange(context: modelContext, savedTimedTask: due.hasTime)
+    }
+
+    /// Return resigns the field after `onSubmit` runs, and a sheet takes focus only once it's on screen, so focus
+    /// is requested on the next run loop pass to keep the keyboard up between tasks.
+    private func focusTitle() {
+        DispatchQueue.main.async { isTitleFocused = true }
     }
 
     private static func nextHour() -> Date {

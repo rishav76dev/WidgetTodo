@@ -130,10 +130,10 @@ HOW TO ADD THE WIDGET:
 5. To choose the list or theme for a widget: touch and hold the widget > Edit Widget.
 
 HOW TO TEST PREMIUM (sandbox):
-- In the app, open Settings and tap Upgrade, or open Themes and tap any theme with a lock, then "Unlock all themes".
+- In the app, tap the gear icon (top right of the home screen) and tap "Upgrade to Premium". Or tap the palette icon (Themes), tap any theme with a lock, then "Unlock all themes".
 - Products: "premium_yearly" (auto-renewable, 1 year, with a 1-week free introductory trial) and "premium_lifetime" (non-consumable).
 - After purchase, all themes unlock in the app and in the widget's theme picker.
-- Restore Purchases is in Settings. Manage Subscription is also in Settings.
+- Restore Purchases is in Settings (gear icon). Manage Subscription appears there while a subscription is active.
 - The paywall shows the price, the period, what is charged after the trial, auto-renewal terms, Restore Purchases, and links to the Terms of Use and Privacy Policy.
 
 SIRI: Say "Add a task in Todo1"; Siri asks what to add.

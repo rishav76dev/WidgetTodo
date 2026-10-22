@@ -10,22 +10,21 @@ struct Todo1App: App {
     @State private var model: AppModel
     @State private var purchases: PurchaseManager
     @State private var isRefreshing = false
-    /// The context the UI reads and writes. Replaced after the widget writes the store (see `refreshIfExternallyChanged`).
+    /// The context the UI reads and writes. Replaced when the store changed while the app was in the background
+    /// (see `refreshIfChangedInBackground`). Mirrored in `IntentSupport.appContext` so intents run here share it.
     @State private var context: ModelContext?
-    @State private var seenExternalWrite: Double
+    /// The tasks as the UI saw them when the app last went to the background.
+    @State private var backgroundSnapshot: [TaskSnapshot]?
     private let container: ModelContainer?
 
     private static let didWaitForInitialSyncKey = "didWaitForInitialSync"
-    /// Written by the widget's intents (seconds since 1970) after they change the store.
-    private static let lastExternalWriteKey = "lastExternalWriteAt"
-    private static let groupDefaults = UserDefaults(suiteName: AppConstants.appGroupID) ?? .standard
 
     init() {
         FontRegistration.registerBundledFonts()
         let container = try? ModelContainerFactory.shared(role: TargetRole.role)
         self.container = container
         _context = State(initialValue: container?.mainContext)
-        _seenExternalWrite = State(initialValue: Self.groupDefaults.double(forKey: Self.lastExternalWriteKey))
+        IntentSupport.appContext = container?.mainContext
         let model = AppModel()
         let purchases = PurchaseManager()
         purchases.configure()
@@ -47,8 +46,14 @@ struct Todo1App: App {
                     .onOpenURL { model.handle(url: $0) }
                     .task { purchases.start(model: model) }
                     .onChange(of: scenePhase, initial: true) { _, phase in
-                        guard phase == .active else { return }
-                        Task { await becameActive(container) }
+                        switch phase {
+                        case .active:
+                            Task { await becameActive(container) }
+                        case .background:
+                            backgroundSnapshot = try? TaskRepository(context: context).snapshots()
+                        default:
+                            break
+                        }
                     }
             } else {
                 StartupErrorView()
@@ -58,7 +63,7 @@ struct Todo1App: App {
 
     @MainActor
     private func becameActive(_ container: ModelContainer) async {
-        refreshIfExternallyChanged(container)
+        refreshIfChangedInBackground(container)
         guard !isRefreshing else { return }
         isRefreshing = true
         defer { isRefreshing = false }
@@ -73,16 +78,18 @@ struct Todo1App: App {
         await ensureDefaultList(repository)
     }
 
-    /// Another process (the widget) wrote the store. Objects already loaded in a context keep their old values,
-    /// so swap in a fresh context: the UI refetches current data, and toggling a stale row can't overwrite the widget's change.
+    /// The widget writes the store from its own process while the app is in the background, and objects already
+    /// loaded in a context keep their old values. If a fresh read differs from what the UI last saw, swap in a fresh
+    /// context: the UI refetches current data, and toggling a stale row can't overwrite the widget's change.
     @MainActor
-    private func refreshIfExternallyChanged(_ container: ModelContainer) {
-        let lastWrite = Self.groupDefaults.double(forKey: Self.lastExternalWriteKey)
-        guard lastWrite > seenExternalWrite else { return }
-        seenExternalWrite = lastWrite
+    private func refreshIfChangedInBackground(_ container: ModelContainer) {
+        guard let before = backgroundSnapshot else { return }
+        backgroundSnapshot = nil
         let fresh = ModelContext(container)
         fresh.autosaveEnabled = true
+        guard let current = try? TaskRepository(context: fresh).snapshots(), current != before else { return }
         context = fresh
+        IntentSupport.appContext = fresh
     }
 
     /// On first launch, waits up to 5 s for iCloud to import existing lists, so a second device

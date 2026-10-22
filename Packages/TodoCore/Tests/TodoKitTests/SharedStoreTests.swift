@@ -12,7 +12,9 @@ import Testing
     @Test func roundTripsEntitlementsAndPreferences() {
         let backing = InMemoryKeyValueStore()
         let store = SharedStore(store: backing)
-        let entitlements = EntitlementState(isPremium: true, freeThemeCount: 5, themeOrder: ["neon", "zen"])
+        let entitlements = EntitlementState(
+            isPremium: true, premiumExpiresAt: Date(timeIntervalSince1970: 1_800_000_000), freeThemeCount: 5, themeOrder: ["neon", "zen"]
+        )
         let preferences = AppPreferences(appThemeID: "midnight", hasCompletedOnboarding: true, notificationsEnabled: false, hasAskedNotificationPermission: true)
         store.saveEntitlements(entitlements)
         store.savePreferences(preferences)
@@ -37,7 +39,7 @@ import Testing
     @Test func partialPreferencesUseDefaults() throws {
         let backing = InMemoryKeyValueStore()
         backing.writeData(Data(#"{"hasCompletedOnboarding":true,"notificationsEnabled":"yes"}"#.utf8), forKey: "preferences.v1")
-        backing.writeData(Data(#"{"isPremium":true}"#.utf8), forKey: "entitlements.v1")
+        backing.writeData(Data(#"{"isPremium":true,"premiumExpiresAt":"soon"}"#.utf8), forKey: "entitlements.v1")
         let store = SharedStore(store: backing)
         let preferences = store.loadPreferences()
         #expect(preferences.hasCompletedOnboarding)

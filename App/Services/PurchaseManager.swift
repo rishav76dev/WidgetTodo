@@ -12,7 +12,7 @@ final class PurchaseManager {
     private(set) var hasActiveSubscription = false
 
     @ObservationIgnored private var listener: Task<Void, Never>?
-    @ObservationIgnored private let logger = Logger(subsystem: "ai.shavastudios.todo1", category: "purchases")
+    private let logger = Logger(subsystem: "ai.shavastudios.todo1", category: "purchases")
 
     func configure() {
         guard !isConfigured else { return }

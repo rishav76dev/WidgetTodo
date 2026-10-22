@@ -168,7 +168,7 @@ private struct AddWidgetPage: View {
             Text("\(number)")
                 .font(.headline)
                 .frame(width: 26, height: 26)
-                .background(Circle().fill(.tint.opacity(0.15)))
+                .background(Circle().fill(.tint).opacity(0.15))
             Text(text)
         }
     }

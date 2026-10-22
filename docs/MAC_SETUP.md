@@ -179,13 +179,14 @@ At the end, you should see a line like `Test run with N tests passed`. If anythi
    3. Search for **Todo1**, choose the **Medium** size, and tap **Add Widget**. Then tap **Done**.
 4. **Tick a task in the widget:** tap a checkbox on the widget. The task should be marked done without the app opening. Open the app and check that it shows as completed.
 5. **Tap "+" in the widget:** the app should open straight to quick add with the keyboard up.
-6. **Change the widget's list and theme:** long-press the widget → **Edit Widget**. Choose a list and a theme. Locked themes have a 🔒, and if you pick one the widget shows Paper with a "Theme locked" footer.
+6. **Change the widget's list and theme:** long-press the widget → **Edit Widget**. Set **Show** to a list (or All / Today) and pick a **Theme**. Locked themes have a 🔒. If you pick one without Premium, the widget shows Paper with a "Theme locked · tap to unlock" footer, and tapping the footer opens the app's theme gallery.
 7. **Reminder:**
    1. Add a task with a time 2 minutes from now.
    2. When asked for notification permission, allow it.
    3. Lock the phone and wait. A notification should appear.
 8. **Siri:** say "Hey Siri, add a task in Todo1", then say a title when Siri asks. You can also open the **Shortcuts** app, where Todo1's "Add a task" action is listed under App Shortcuts.
-9. **iCloud:** open the app's **Settings** screen. It should say "Syncing with iCloud".
+9. **Themes in the app:** tap the palette icon at the top right of the home screen. Free themes apply when tapped; locked ones open a preview with **Unlock all themes**.
+10. **iCloud:** tap the gear icon at the top right of the home screen to open **Settings**. Under iCloud it should say "Syncing with iCloud".
 
 Note anything that looks wrong, ideally with a screenshot, and send it to the owner.
 
@@ -209,13 +210,13 @@ The paywall itself is drawn by RevenueCat, so you need:
 
 ### Try these purchase tests
 
-1. Run the app, go to **Settings** → **Upgrade**, and buy the yearly plan. It should show the 1-week free trial. Confirm the fake payment sheet. Every theme should unlock in the gallery and in the widget's theme list.
+1. Run the app, tap the gear icon → **Upgrade to Premium**, and buy the yearly plan. It should show the 1-week free trial. Confirm the fake payment sheet. Every theme should unlock in the gallery and in the widget's theme list.
 2. **Make the subscription expire:**
    1. Go to **Debug** → **StoreKit** → **Manage Transactions…**.
    2. Select the purchase and click **Expire** or **Refund**. In some Xcode versions this is a right-click menu.
    3. Go back to the app. The themes should lock again, and a widget using a premium theme should fall back to Paper.
 3. **Speed up renewals:** with `Todo1.storekit` open, use the **Editor** menu → **Subscription Renewal Rate**. Some Xcode versions call it **Time Rate**.
-4. **Restore Purchases:** delete the transactions in Manage Transactions, buy the lifetime product, delete and reinstall the app, then tap **Settings** → **Restore Purchases**.
+4. **Restore Purchases:** delete the transactions in Manage Transactions, buy the lifetime product, delete and reinstall the app, then tap the gear icon → **Restore Purchases**. An alert shows the result.
 
 ### Test with the real sandbox (later)
 
@@ -257,7 +258,8 @@ Before your first upload, the owner must have created the app record in App Stor
 | Package resolution fails ("Missing package product RevenueCat") | Use File → **Packages** → **Reset Package Caches**, then **Resolve Package Versions**. Check the Mac's internet connection. |
 | `swift test` says "no such module" or uses the wrong Swift | Run `sudo xcode-select -s /Applications/Xcode.app` and try again. |
 | The widget doesn't appear in the widget gallery | Run the app from Xcode once and open it on the phone. Then restart the iPhone. |
-| The widget shows Paper with "Theme locked" | This is expected for premium themes without Premium. |
+| The widget shows Paper with "Theme locked · tap to unlock" | This is expected for premium themes without Premium. |
+| The widget says "Open Todo1 to finish setup" | The widget couldn't open the shared task store yet. Open the app once; the widget updates within a few seconds. If it stays, check that **both** targets have the App Group `group.ai.shavastudios.todo1` ticked (step 4). |
 | Settings shows "iCloud unavailable" | Sign the iPhone in to iCloud and turn on iCloud Drive. In a simulator, sign in under the simulator's Settings app. |
 | The paywall says "Purchases unavailable right now" | `REVENUECAT_API_KEY` is missing from `Config/Local.xcconfig`, or still says `REPLACE_ME`. Add the key, then build again with **⌘B**. |
 | "Developer Mode disabled" or the iPhone isn't in the destination list | Do step 6 "Prepare the phone". Unlock the phone and keep it unlocked while Xcode prepares it. |

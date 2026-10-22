@@ -22,6 +22,16 @@ import Testing
         #expect(EntitlementState.from(isPremium: false, offeringMetadata: [:]) == .default)
     }
 
+    @Test func premiumExpiry() {
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let expiring = EntitlementState.from(isPremium: true, premiumExpiresAt: now, offeringMetadata: [:])
+        #expect(expiring.premiumExpiresAt == now)
+        #expect(expiring.hasPremium(at: now.addingTimeInterval(-1)))
+        #expect(!expiring.hasPremium(at: now))
+        #expect(EntitlementState(isPremium: true, freeThemeCount: 3, themeOrder: []).hasPremium(at: .distantFuture))
+        #expect(!EntitlementState(isPremium: false, premiumExpiresAt: .distantFuture, freeThemeCount: 3, themeOrder: []).hasPremium(at: now))
+    }
+
     @Test func defaultUsesBundledConstants() {
         #expect(EntitlementState.default == EntitlementState(isPremium: false, freeThemeCount: AppConstants.defaultFreeThemeCount, themeOrder: []))
     }

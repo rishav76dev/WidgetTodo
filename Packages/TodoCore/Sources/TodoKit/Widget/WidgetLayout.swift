@@ -37,8 +37,10 @@ public enum WidgetLayout {
     }
 
     /// The earliest of the next midnight (day groups shift), the next open timed due instant
-    /// (the task turns overdue) and one hour from `now`.
-    public static func nextRefreshDate(tasks: [TaskSnapshot], now: Date, calendar: Calendar) -> Date {
+    /// (the task turns overdue), a future `premiumExpiresAt` (premium themes lock) and one hour from `now`.
+    public static func nextRefreshDate(
+        tasks: [TaskSnapshot], now: Date, calendar: Calendar, premiumExpiresAt: Date? = nil
+    ) -> Date {
         var candidates = [now.addingTimeInterval(3600)]
         if let midnight = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now)) {
             candidates.append(midnight)
@@ -49,6 +51,7 @@ public enum WidgetLayout {
             .filter { $0 > now }
             .min()
         if let nextDue { candidates.append(nextDue) }
+        if let premiumExpiresAt, premiumExpiresAt > now { candidates.append(premiumExpiresAt) }
         return candidates.min()!
     }
 }

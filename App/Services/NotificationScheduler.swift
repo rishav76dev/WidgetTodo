@@ -11,8 +11,10 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
 
     private let center = UNUserNotificationCenter.current()
     private weak var model: AppModel?
-    /// Bumped on every `reschedule`, so an older run that resumes after a newer one stops adding requests.
+    /// Bumped on every `reschedule`, so a queued or running older rebuild stops early.
     private var generation = 0
+    /// Rebuilds run one after another: an older run's late `add` can't land after a newer run's removal.
+    private var lastRun: Task<Void, Never>?
 
     func attach(model: AppModel) {
         self.model = model
@@ -29,7 +31,17 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
     func reschedule(tasks: [TaskSnapshot], enabled: Bool) async {
         generation += 1
         let run = generation
+        let previous = lastRun
+        let current = Task {
+            await previous?.value
+            await self.rebuild(tasks: tasks, enabled: enabled, run: run)
+        }
+        lastRun = current
+        await current.value
+    }
 
+    private func rebuild(tasks: [TaskSnapshot], enabled: Bool, run: Int) async {
+        guard run == generation else { return }
         let pending = await center.pendingNotificationRequests()
         guard run == generation else { return }
         let ours = pending.map(\.identifier).filter { $0.hasPrefix(NotificationPlanner.identifierPrefix) }
@@ -37,7 +49,6 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
         guard enabled else { return }
 
         let settings = await center.notificationSettings()
-        guard run == generation else { return }
         switch settings.authorizationStatus {
         case .authorized, .provisional, .ephemeral: break
         default: return
@@ -61,23 +72,29 @@ final class NotificationScheduler: NSObject, UNUserNotificationCenterDelegate {
     }
 
     // MARK: UNUserNotificationCenterDelegate
+    // Completion-handler variants: UIKit requires the tap handler's completion on the main thread,
+    // which the nonisolated async variant does not guarantee.
 
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification
-    ) async -> UNNotificationPresentationOptions {
-        [.banner, .list, .sound]
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .list, .sound])
     }
 
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse
-    ) async {
-        guard let link = response.notification.request.content.userInfo[Self.deepLinkKey] as? String,
-              let url = URL(string: link)
-        else { return }
-        await MainActor.run {
-            self.model?.handle(url: url)
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let link = response.notification.request.content.userInfo[Self.deepLinkKey] as? String
+        let url = link.flatMap { URL(string: $0) }
+        Task { @MainActor in
+            if let url {
+                self.model?.handle(url: url)
+            }
+            completionHandler()
         }
     }
 }

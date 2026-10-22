@@ -254,26 +254,26 @@ Do this with a TestFlight build on a real iPhone. Purchases in TestFlight are fr
   2. Create a **yearly** task due on **29 February 2028**. Complete it. It should move to **28 February 2029**.
 - [ ] **3. Garbage remote config**
   1. In RevenueCat, set the `default` offering metadata to each of these in turn. After each change, force-quit and reopen the app, then check the theme gallery.
-     - `{"free_theme_count":-1}`: at least Paper is free, and the app doesn't crash.
+     - `{"free_theme_count":-1}`: exactly one theme (Paper) is free, and the app doesn't crash. The app never locks every theme.
      - `{"free_theme_count":"lots"}`: falls back to 3 free themes.
      - `{"free_theme_count":99}`: all 12 themes are free.
-     - `{"free_theme_count":3,"theme_order":["nope","neon"]}`: Neon comes first and is free, and "nope" is ignored.
+     - `{"free_theme_count":3,"theme_order":["nope","neon"]}`: Neon comes first and is free (with Paper and Midnight), and "nope" is ignored.
   2. Afterwards, restore `{"free_theme_count":3,"theme_order":[]}`.
 - [ ] **4. Fresh install with no shared data**
   1. Delete the app.
   2. Reinstall it from TestFlight, but **don't open it**.
-  3. Add the widget. It should show the Paper theme with an "All clear" empty state. It should not be blank and should not crash.
+  3. Add the widget. It should show the Paper theme with an "All clear" empty state, or the title "Open Todo1 to finish setup". It should not be blank and should not crash.
   4. Open the app. The widget should update.
 - [ ] **5. Blank and very long titles**
   - In quick add, type only spaces and press Return. Nothing should be added.
   - Paste a title that is over 600 characters long. It should be saved with surrounding spaces trimmed and cut to 500 characters.
-  - Say to Siri "Add a task in <name>", then answer with silence or just "um". No blank task should be created.
+  - Say to Siri "Add a task in <name>", then stay silent when Siri asks "What do you need to do?". Siri should ask again or give up, and no blank task should be created.
 
 ### Widget
 
 - [ ] Small, medium and large sizes. Ticking a checkbox works, "+" opens quick add, tapping a row opens the task, and "+N more" appears when there are more tasks.
 - [ ] Light mode, dark mode and **tinted** home screen mode. On iOS 18 or later, long-press the home screen → **Edit** → **Customize** → **Tinted**. Also try **Clear** mode on iOS 26. Every theme should stay readable.
-- [ ] Choose a premium theme for the widget without Premium. The widget should show Paper with a "Theme locked" footer, and tapping the footer opens the theme gallery.
+- [ ] Choose a premium theme for the widget without Premium. The widget should show Paper (the first free theme) with a "Theme locked · tap to unlock" footer, and tapping the footer opens the theme gallery.
 
 ### Purchases (sandbox)
 

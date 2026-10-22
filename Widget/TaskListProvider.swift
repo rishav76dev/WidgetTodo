@@ -89,7 +89,8 @@ struct TaskListProvider: AppIntentTimelineProvider {
         )
     }
 
-    /// A nil `themeID` uses the app's theme; a locked one falls back to a free theme.
+    /// A nil `themeID` follows the app's effective theme. Only a locked theme picked for this widget
+    /// shows the unlock caption; a locked app theme just falls back silently, as it does in the app.
     private static func entry(
         tasks: [TaskSnapshot],
         filter: TaskFilter,
@@ -112,7 +113,7 @@ struct TaskListProvider: AppIntentTimelineProvider {
             title: title,
             filter: filter,
             content: content,
-            isLockedFallback: resolved.isLockedFallback,
+            isLockedFallback: themeID != nil && resolved.isLockedFallback,
             now: now
         )
         return TaskListEntry(date: now, model: model, theme: resolved.theme)

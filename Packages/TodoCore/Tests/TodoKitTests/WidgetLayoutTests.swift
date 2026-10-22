@@ -102,6 +102,14 @@ import Testing
         #expect(WidgetLayout.nextRefreshDate(tasks: dueAfterMidnight, now: now, calendar: calendar) == date(2026, 3, 11, 0))
     }
 
+    @Test func refreshAtPremiumExpiryWhenSooner() {
+        let now = date(2026, 3, 10, 12)
+        let expiry = date(2026, 3, 10, 12, 10)
+        #expect(WidgetLayout.nextRefreshDate(tasks: [], now: now, calendar: calendar, premiumExpiresAt: expiry) == expiry)
+        let past = date(2026, 3, 10, 11)
+        #expect(WidgetLayout.nextRefreshDate(tasks: [], now: now, calendar: calendar, premiumExpiresAt: past) == now.addingTimeInterval(3600))
+    }
+
     @Test func sampleTasksCoverAllGroupsExceptCompleted() {
         for now in [date(2026, 3, 10, 12), date(2026, 3, 10, 23, 50), date(2026, 3, 10, 0, 0)] {
             let samples = SampleTasks.make(now: now, calendar: calendar)

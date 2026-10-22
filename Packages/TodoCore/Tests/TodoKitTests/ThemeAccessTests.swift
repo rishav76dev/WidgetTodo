@@ -53,6 +53,20 @@ import Testing
         #expect(!free.isLockedFallback)
     }
 
+    @Test func expiredPremiumLocksThemes() {
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let expired = EntitlementState(isPremium: true, premiumExpiresAt: now.addingTimeInterval(-60), freeThemeCount: 3, themeOrder: [])
+        #expect(!ThemeAccess.isUnlocked(themeID: "neon", catalog: catalog, state: expired, now: now))
+        #expect(ThemeAccess.isUnlocked(themeID: "paper", catalog: catalog, state: expired, now: now))
+        let result = ThemeAccess.effectiveTheme(selectedID: "neon", catalog: catalog, state: expired, now: now)
+        #expect(result.theme.id == "paper")
+        #expect(result.isLockedFallback)
+
+        let active = EntitlementState(isPremium: true, premiumExpiresAt: now.addingTimeInterval(60), freeThemeCount: 3, themeOrder: [])
+        #expect(ThemeAccess.isUnlocked(themeID: "neon", catalog: catalog, state: active, now: now))
+        #expect(ThemeAccess.isUnlocked(themeID: "neon", catalog: catalog, state: state(premium: true), now: .distantFuture))
+    }
+
     @Test func nilSelectionNoFlag() {
         let result = ThemeAccess.effectiveTheme(selectedID: nil, catalog: catalog, state: .default)
         #expect(result.theme.id == "paper")

@@ -10,19 +10,22 @@ public enum ThemeAccess {
         return ordered.prefix(count).map(\.id)
     }
 
-    public static func isUnlocked(themeID: String, catalog: ThemeCatalog, state: EntitlementState) -> Bool {
-        state.isPremium || freeThemeIDs(catalog: catalog, state: state).contains(themeID)
+    /// Premium counts only until `state.premiumExpiresAt`, so a stale cache can't keep themes unlocked.
+    public static func isUnlocked(themeID: String, catalog: ThemeCatalog, state: EntitlementState, now: Date = Date()) -> Bool {
+        state.hasPremium(at: now) || freeThemeIDs(catalog: catalog, state: state).contains(themeID)
     }
 
     /// The theme to render for `selectedID`. A locked selection gives the first free theme with
     /// `isLockedFallback` set (the widget then shows its unlock footer); nil or an id no longer in the
     /// catalogue gives the first free theme without the flag.
-    public static func effectiveTheme(selectedID: String?, catalog: ThemeCatalog, state: EntitlementState) -> (theme: Theme, isLockedFallback: Bool) {
+    public static func effectiveTheme(
+        selectedID: String?, catalog: ThemeCatalog, state: EntitlementState, now: Date = Date()
+    ) -> (theme: Theme, isLockedFallback: Bool) {
         let firstFree = freeThemeIDs(catalog: catalog, state: state).first.map { catalog.theme(id: $0) } ?? .fallback
         guard let selectedID, let selected = catalog.themes.first(where: { $0.id == selectedID }) else {
             return (firstFree, false)
         }
-        if isUnlocked(themeID: selectedID, catalog: catalog, state: state) {
+        if isUnlocked(themeID: selectedID, catalog: catalog, state: state, now: now) {
             return (selected, false)
         }
         return (firstFree, true)
