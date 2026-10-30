@@ -1,0 +1,35 @@
+{
+  "id": "swiss",
+  "name": "Swiss",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#FFFFFF"
+    ]
+  },
+  "textPrimary": "#000000",
+  "textSecondary": "#666666",
+  "accent": "#E30613",
+  "overdue": "#E30613",
+  "font": {
+    "family": "system",
+    "weight": "bold",
+    "scale": 1.0,
+    "case": "none"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "divider",
+    "spacing": 8
+  },
+  "checkbox": "square",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 0,
+  "padding": 14
+}

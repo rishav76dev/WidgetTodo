@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FAF8F3">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <TextView android:id="@+id/widget_title" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textSize="22sp" android:textStyle="bold" android:text="All Tasks" />
+        <TextView android:id="@+id/widget_config" android:layout_width="48dp" android:layout_height="48dp" android:gravity="center" android:text="⋯" android:textSize="24sp" android:contentDescription="Configure widget" />
+        <TextView android:id="@+id/widget_add" android:layout_width="48dp" android:layout_height="48dp" android:gravity="center" android:text="+" android:textSize="28sp" android:contentDescription="Add task" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/widget_rows" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/widget_footer" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="12sp" />
+</LinearLayout>

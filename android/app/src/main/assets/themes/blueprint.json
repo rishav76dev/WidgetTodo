@@ -1,0 +1,37 @@
+{
+  "id": "blueprint",
+  "name": "Blueprint",
+  "colorScheme": "dark",
+  "background": {
+    "type": "grid",
+    "colors": [
+      "#0B3D91"
+    ],
+    "gridColor": "#FFFFFF33"
+  },
+  "textPrimary": "#FFFFFF",
+  "textSecondary": "#B8C9E8",
+  "accent": "#FFFFFF",
+  "overdue": "#FFB4A9",
+  "font": {
+    "family": "custom",
+    "customName": "IBMPlexMono-Regular",
+    "weight": "regular",
+    "scale": 0.95,
+    "case": "upper"
+  },
+  "header": {
+    "style": "plain",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 6
+  },
+  "checkbox": "square",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 4,
+  "padding": 14
+}

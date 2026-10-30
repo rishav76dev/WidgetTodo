@@ -1,0 +1,36 @@
+{
+  "id": "neon",
+  "name": "Neon",
+  "colorScheme": "dark",
+  "background": {
+    "type": "gradient",
+    "colors": [
+      "#14001F",
+      "#000000"
+    ]
+  },
+  "textPrimary": "#FF2BD6",
+  "textSecondary": "#00E5FF",
+  "accent": "#00E5FF",
+  "overdue": "#FF3B30",
+  "font": {
+    "family": "rounded",
+    "weight": "medium",
+    "scale": 1.0,
+    "case": "none"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 8
+  },
+  "checkbox": "circle",
+  "footer": "none",
+  "layout": "list",
+  "glow": true,
+  "cornerRadius": 16,
+  "padding": 14
+}

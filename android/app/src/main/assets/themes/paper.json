@@ -1,0 +1,35 @@
+{
+  "id": "paper",
+  "name": "Paper",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#FAF8F3"
+    ]
+  },
+  "textPrimary": "#1A1A1A",
+  "textSecondary": "#6B6B6B",
+  "accent": "#1A1A1A",
+  "overdue": "#D93025",
+  "font": {
+    "family": "serif",
+    "weight": "regular",
+    "scale": 1.0,
+    "case": "none"
+  },
+  "header": {
+    "style": "bold",
+    "prefix": ""
+  },
+  "row": {
+    "style": "divider",
+    "spacing": 6
+  },
+  "checkbox": "circle",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 16,
+  "padding": 14
+}

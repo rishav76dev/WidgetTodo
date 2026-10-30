@@ -1,0 +1,35 @@
+{
+  "id": "mono-mint",
+  "name": "Mono Mint",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#E3F4EA"
+    ]
+  },
+  "textPrimary": "#0F3D2A",
+  "textSecondary": "#4C7A64",
+  "accent": "#0F3D2A",
+  "overdue": "#C62828",
+  "font": {
+    "family": "mono",
+    "weight": "regular",
+    "scale": 1.0,
+    "case": "none"
+  },
+  "header": {
+    "style": "plain",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 6
+  },
+  "checkbox": "square",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 16,
+  "padding": 14
+}

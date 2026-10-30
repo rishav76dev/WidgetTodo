@@ -1,0 +1,35 @@
+{
+  "id": "zen",
+  "name": "Zen",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#F7F5F0"
+    ]
+  },
+  "textPrimary": "#2B2B2B",
+  "textSecondary": "#A0A0A0",
+  "accent": "#2B2B2B",
+  "overdue": "#B5523B",
+  "font": {
+    "family": "serif",
+    "weight": "light",
+    "scale": 1.4,
+    "case": "none"
+  },
+  "header": {
+    "style": "plain",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 12
+  },
+  "checkbox": "circle",
+  "footer": "count",
+  "layout": "focus",
+  "glow": false,
+  "cornerRadius": 16,
+  "padding": 24
+}

@@ -1,0 +1,36 @@
+{
+  "id": "sticky-note",
+  "name": "Sticky Note",
+  "colorScheme": "light",
+  "background": {
+    "type": "solid",
+    "colors": [
+      "#FFF27A"
+    ]
+  },
+  "textPrimary": "#3A3000",
+  "textSecondary": "#7A6A1A",
+  "accent": "#3A3000",
+  "overdue": "#C0392B",
+  "font": {
+    "family": "custom",
+    "customName": "Caveat-Regular",
+    "weight": "regular",
+    "scale": 1.25,
+    "case": "none"
+  },
+  "header": {
+    "style": "plain",
+    "prefix": ""
+  },
+  "row": {
+    "style": "plain",
+    "spacing": 6
+  },
+  "checkbox": "strike",
+  "footer": "none",
+  "layout": "list",
+  "glow": false,
+  "cornerRadius": 4,
+  "padding": 14
+}
